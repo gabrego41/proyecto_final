@@ -1,4 +1,4 @@
-﻿namespace ProyectoFinalCoderHouse
+﻿namespace ProyectoFinalCoderHouse.MODELO
 {
     public class Venta
     {

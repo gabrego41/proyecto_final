@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoFinalCoderHouse.MODELO;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -14,27 +15,48 @@ namespace ProyectoFinalCoderHouse
             List<ProductoVendido> productosvendidos = new List<ProductoVendido>();
             using (SqlConnection sqlConnection = new(ConnectionString))
             {
-                using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM PRODUCTOVENDIDO", sqlConnection))
+                using (SqlCommand sqlCommand = new SqlCommand(
+                    "SELECT * FROM ProductoVendido WHERE IdProducto = @idProducto ", sqlConnection))
                 {
+                    Console.WriteLine("POR FAVOR VUELVA A INGRESAR EL ID DEL PRODUCTO");  
+                    
+                    int idProducto = 0;
+                    idProducto = Convert.ToInt32(Console.ReadLine());   
+                    
                     sqlConnection.Open();
 
-                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+                    SqlParameter parametro = new SqlParameter();
+
+                    parametro.ParameterName = "idProducto";
+                    parametro.SqlDbType = System.Data.SqlDbType.Int;
+                    parametro.Value = idProducto;
+
+                    sqlCommand.Parameters.Add(parametro);
+
+                    if (idProducto != 0 )
                     {
-                        if (dataReader.HasRows)
+                        using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
                         {
-                            while (dataReader.Read())
+                            if (dataReader.HasRows)
                             {
-                                ProductoVendido productovendido = new ProductoVendido();
+                                while (dataReader.Read())
+                                {
+                                    ProductoVendido productovendido = new ProductoVendido();
 
-                                productovendido.id = Convert.ToInt32(dataReader["Id"]);
-                                productovendido.stock = Convert.ToInt32(dataReader["Stock"]);
-                                productovendido.idproducto = Convert.ToInt32(dataReader["IdProducto"]);
-                                productovendido.idventa = Convert.ToInt32(dataReader["IdVenta"]);
+                                    productovendido.id = Convert.ToInt32(dataReader["Id"]);
+                                    productovendido.stock = Convert.ToInt32(dataReader["Stock"]);
+                                    productovendido.idproducto = Convert.ToInt32(dataReader["IdProducto"]);
+                                    productovendido.idventa = Convert.ToInt32(dataReader["IdVenta"]);
 
-                                productosvendidos.Add(productovendido);
+                                    productosvendidos.Add(productovendido);
+                                }
                             }
-                        }
 
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("EL PRODUCTO NO SE ENCUENTRA");
                     }
                     sqlConnection.Close();
                 }
@@ -74,7 +96,6 @@ namespace ProyectoFinalCoderHouse
 
         public void MostrarProductosVendidos()
         {
-            Console.WriteLine("-------PRODUCTOS VENDIDOS-------");
 
             foreach (ProductoVendido productovendido in GetProductosVendidos())
             {
@@ -85,7 +106,7 @@ namespace ProyectoFinalCoderHouse
                 Console.WriteLine("IDUsuario = " + productovendido.idventa);
 
             }
-            Console.WriteLine("--------------------");
+            Console.WriteLine("--------------------------------------------------------------");
         }
 
 

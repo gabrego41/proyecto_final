@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7ZmUTb93EeF8rAZ1RWsI1Q1DUDHhROQyQTZNS/L+ZQsl7hrgsTdq0XZQ1aMd3TFPOMC63xe+ySqRY5XZEHKsfQ==",
+  "dgSpecHash": "6pqc9tnC2US+BsF5q8EVEM2pwiLyFFyoPyCi4MedwUD2ceRrGRrkOPhmUr0/+OjCO+6zFaW+g74bV4UPHpT6Cg==",
   "success": true,
-  "projectFilePath": "C:\\CoderHouse\\proyecto_final\\Primer Entrega\\ProyectoFinalCoderHouse\\PROYECTO_FINAL_CODERHOUSE\\ProyectoFinalCoderHouse.csproj",
+  "projectFilePath": "C:\\CoderHouse\\proyecto_final\\PreEntrega\\ProyectoFinalCoderHouse.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\User\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",

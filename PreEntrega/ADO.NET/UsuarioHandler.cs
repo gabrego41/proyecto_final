@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoFinalCoderHouse.MODELO;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -9,59 +10,130 @@ namespace ProyectoFinalCoderHouse
 {
     public class UsuarioHandler : DBHandler
     {
-        public static List<Usuario> GetUsuarios()
+        public List<Usuario> GetUsuarios()
         {
             List<Usuario> usuarios = new List<Usuario>();
             using (SqlConnection sqlConnection = new(ConnectionString))
             {
-                using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM Usuario", sqlConnection))
+                using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM Usuario WHERE NombreUsuario = @nombreUsuario", sqlConnection))
                 {
+                    string nombreUsuario = null;
+                    nombreUsuario=Console.ReadLine();
+
                     sqlConnection.Open();
 
-                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+                    SqlParameter parametro = new SqlParameter();
+
+                    parametro.ParameterName = "nombreUsuario";
+                    parametro.Value = nombreUsuario;
+
+                    sqlCommand.Parameters.Add(parametro);
+
+                    if (parametro.Value != null)
                     {
-                        if (dataReader.HasRows)
+                        using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
                         {
-                            while (dataReader.Read())
+                            if (dataReader.HasRows)
                             {
-                                Usuario usuario = new Usuario();
+                                while (dataReader.Read())
+                                {
+                                    Usuario usuario = new Usuario();
 
-                                usuario.id = Convert.ToInt32(dataReader["Id"]);
-                                usuario.nombre = dataReader["Nombre"].ToString();
-                                usuario.apellido = dataReader["Apellido"].ToString();
-                                usuario.nombreUsuario = dataReader["NombreUsuario"].ToString();
-                                usuario.password = dataReader["Contraseña"].ToString();
-                                usuario.mail = dataReader["Mail"].ToString();
+                                    usuario.id = Convert.ToInt32(dataReader["Id"]);
+                                    usuario.nombre = dataReader["Nombre"].ToString();
+                                    usuario.apellido = dataReader["Apellido"].ToString();
+                                    usuario.nombreUsuario = dataReader["NombreUsuario"].ToString();
+                                    usuario.password = dataReader["Contraseña"].ToString();
+                                    usuario.mail = dataReader["Mail"].ToString();
 
-                                usuarios.Add(usuario);
+                                    usuarios.Add(usuario);
+                                }
                             }
-                        }
 
+                        }
+                            
                     }
+                    else
+                    {
+                        Console.WriteLine("USUARIO NO ENCONTRADO");
+                        Console.WriteLine("PROGRAMA TERMINADO");
+                    }
+
                     sqlConnection.Close();
                 }
                 return usuarios;
             }
         }
-        public void GetUsuarioByPassword(string nombre, string contraseña)
+        public List<Usuario> GetUserWithPassword()
         {
-            Usuario usuario = new Usuario();
-            using (SqlConnection sqlConnection= new SqlConnection(ConnectionString))
+            List<Usuario> usuariosPasswords = new List<Usuario>();
+            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
-                using (SqlCommand sqlCommand = new SqlCommand())
+                using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM Usuario WHERE NombreUsuario = @nombreUsuario AND Contraseña = @contraseña", sqlConnection))
                 {
-                    sqlCommand.Connection = sqlConnection;
-                    sqlCommand.Connection.Open();
+                    string nombreUsuario = null;
+                    string contraseña = null;
 
-                    sqlCommand.CommandText = "SELECT * FROM Usuario WHERE NombreUsuario = @nombre AND Contraseña = @contraseña";
-                    
-                    sqlCommand.Parameters.AddWithValue("@nombre", nombre);
-                    sqlCommand.Parameters.AddWithValue("@contraseña", contraseña);
+                    Console.WriteLine("Ingrese el Usuario");
 
-                    SqlDataAdapter sqladapter = new SqlDataAdapter();
-                    sqladapter.SelectCommand = sqlCommand;
-                    
+                    nombreUsuario = Console.ReadLine();
+
+                    Console.WriteLine("Ingrese la contraseña");
+
+                    contraseña = Console.ReadLine();
+
+                    sqlConnection.Open();
+
+                    SqlParameter parametro = new SqlParameter();
+                    SqlParameter password = new SqlParameter();
+
+                    parametro.ParameterName = "nombreUsuario";
+                    parametro.Value = nombreUsuario;
+                    sqlCommand.Parameters.Add(parametro);
+
+                    password.ParameterName = "contraseña";
+                    password.Value = contraseña;
+                    sqlCommand.Parameters.Add(password);
+
+                    if (parametro.Value != null)
+                    {
+                        using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+                        {
+                            if (dataReader.HasRows)
+                            {
+                                while (dataReader.Read())
+                                {
+                                    Usuario usuarioPassword = new Usuario();
+
+                                    usuarioPassword.id = Convert.ToInt32(dataReader["Id"]);
+                                    usuarioPassword.nombre = dataReader["Nombre"].ToString();
+                                    usuarioPassword.apellido = dataReader["Apellido"].ToString();
+                                    usuarioPassword.nombreUsuario = dataReader["NombreUsuario"].ToString();
+                                    usuarioPassword.password = dataReader["Contraseña"].ToString();
+                                    usuarioPassword.mail = dataReader["Mail"].ToString();
+
+                                    usuariosPasswords.Add(usuarioPassword);
+
+                                    if ( usuarioPassword.password == contraseña)
+                                    {
+                                        Console.WriteLine("--------------------BIENVENIDO AL SISTEMA---------------------");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("---------------USUARIO O CONTRASEÑA INCORRECTOS---------------");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("---------------USUARIO O CONTRASEÑA INCORRECTOS---------------");
+                    }
+
+                    sqlConnection.Close();
                 }
+                return usuariosPasswords;
             }
         }
         public void Delete(Usuario usuario)
@@ -96,8 +168,6 @@ namespace ProyectoFinalCoderHouse
 
         public void MostrarUsuarios()
         {
-            Console.WriteLine("-------USUARIOS-------");
-
             foreach (Usuario usuario in GetUsuarios())
             {
                 Console.WriteLine("ID = " + usuario.id);
@@ -107,8 +177,21 @@ namespace ProyectoFinalCoderHouse
                 Console.WriteLine("PASSWORD = " + usuario.password);
                 Console.WriteLine("MAIL= " + usuario.mail);
             }
-            Console.WriteLine("--------------------");
+            Console.WriteLine("--------------------------------------------------------------");
         }
 
+        public void ShowUserWithPassword()
+        {
+            Console.WriteLine("---------------INGRESE USUARIO Y LA CONTRASEÑA---------------");
+            foreach (Usuario usuarioPassword in GetUserWithPassword())
+            {
+                Console.WriteLine("ID = " + usuarioPassword.id);
+                Console.WriteLine("NOMBRE= " + usuarioPassword.nombre);
+                Console.WriteLine("APELLIDO = " + usuarioPassword.apellido);
+                Console.WriteLine("NOMBRE USUARIO = " + usuarioPassword.nombreUsuario);
+                Console.WriteLine("MAIL= " + usuarioPassword.mail);
+            }
+            Console.WriteLine("--------------------------------------------------------------");
+        }
     }
 }

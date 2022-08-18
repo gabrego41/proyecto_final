@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\CoderHouse\\proyecto_final\\Primer Entrega\\ProyectoFinalCoderHouse\\PROYECTO_FINAL_CODERHOUSE\\ProyectoFinalCoderHouse.csproj": {}
+    "C:\\CoderHouse\\proyecto_final\\PreEntrega\\ProyectoFinalCoderHouse.csproj": {}
   },
   "projects": {
-    "C:\\CoderHouse\\proyecto_final\\Primer Entrega\\ProyectoFinalCoderHouse\\PROYECTO_FINAL_CODERHOUSE\\ProyectoFinalCoderHouse.csproj": {
+    "C:\\CoderHouse\\proyecto_final\\PreEntrega\\ProyectoFinalCoderHouse.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\CoderHouse\\proyecto_final\\Primer Entrega\\ProyectoFinalCoderHouse\\PROYECTO_FINAL_CODERHOUSE\\ProyectoFinalCoderHouse.csproj",
+        "projectUniqueName": "C:\\CoderHouse\\proyecto_final\\PreEntrega\\ProyectoFinalCoderHouse.csproj",
         "projectName": "ProyectoFinalCoderHouse",
-        "projectPath": "C:\\CoderHouse\\proyecto_final\\Primer Entrega\\ProyectoFinalCoderHouse\\PROYECTO_FINAL_CODERHOUSE\\ProyectoFinalCoderHouse.csproj",
+        "projectPath": "C:\\CoderHouse\\proyecto_final\\PreEntrega\\ProyectoFinalCoderHouse.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\CoderHouse\\proyecto_final\\Primer Entrega\\ProyectoFinalCoderHouse\\PROYECTO_FINAL_CODERHOUSE\\obj\\",
+        "outputPath": "C:\\CoderHouse\\proyecto_final\\PreEntrega\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
